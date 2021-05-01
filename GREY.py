@@ -11,7 +11,7 @@ white=(255,255,255)
 red=(255,0,0)
 blue=(0,0,255)
 
-screen=pygame.display.set_mode([screen_w,screen_h],pygame.FULLSCREEN)
+screen=pygame.display.set_mode([screen_w,screen_h],pygame.RESIZABLE)
 icon = pygame.image.load('./images/icon.jpg')
 pygame.display.set_icon(icon)
 pygame.display.set_caption('Grey')
