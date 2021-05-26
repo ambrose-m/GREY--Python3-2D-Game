@@ -25,7 +25,7 @@ for i in range(9):
     explosion_anim['sm'].append(img_sm)
 
 
-class ExplosionClass(pygame.sprite.Sprite):
+class Explosion(pygame.sprite.Sprite):
     def __init__(self, center, size):
         pygame.sprite.Sprite.__init__(self)
         self.size = size
