@@ -1,6 +1,4 @@
 import unittest
-import coverage
-import pygame
 import explosion_class
 
 class ExplosionTest(unittest.TestCase):
@@ -77,13 +75,47 @@ class ExplosionTest(unittest.TestCase):
         self.explosion_sm.update(15000)
         self.assertEqual(self.explosion_sm.image, explosion_class.explosion_anim['sm'][1])
     
-    #TO DO: Boundary Tests 
-    #center boundaries. not exactly sure what they are but maybe lt 0 and gt ?
-    #explosion_anim[self.size][]. size lt 0 and gt ?. second[] index less than 0 and greater than 9
-    #self.frame in update(). it's the second [] in exp_anim
+    #Boundary Tests: 
 
-    #TO DO: Invalid Value Tests
-    # strings and doubles for the center, size, and now variables
+    #partitions for center are less than -2,199,999,999, -2,199,999,999 to 2,199,999,999 (valid), 
+    #and greater than 2,199,999,999.
+    #Valid center entries are already tested in the unit tests above.
+    def test_boundary_size(self):
+        with self.assertRaises(TypeError):
+            explosion_class.Explosion((2200000000, 2200000000), 'sm')
+        
+        with self.assertRaises(TypeError):
+            explosion_class.Explosion((-2200000000, -2200000000), 'sm')
+
+
+    #Invalid Value Tests:
+
+    #center variable should be a double.
+    def test_invalid_center(self):
+        #if center is an int
+        with self.assertRaises(TypeError):
+            explosion_class.Explosion(1, 'sm')
+        
+        #if center is a string
+        with self.assertRaises(TypeError):
+            explosion_class.Explosion('fail', 'sm')
+        
+
+    #size variable should be one of three strings: 'sm', 'lg', or 'xlg'.
+    #Invalid values for size raise a KeyError rather than a TypeError because
+    #size is used as a key to call a value in explosion_anim[][].
+    def test_invalid_size(self):
+        #if size is an int
+        with self.assertRaises(KeyError):
+            explosion_class.Explosion((200, 200), 1)
+        
+        #if size is a tuple
+        with self.assertRaises(KeyError):
+            explosion_class.Explosion((200, 200), (5, 5))
+
+        #if size is a string other than 'sm', 'lg', or 'xlg'
+        with self.assertRaises(KeyError):
+            explosion_class.Explosion((200, 200), 'fail')
              
 if __name__ == '__main__':
     unittest.main()
